@@ -4,23 +4,19 @@ const path = require("path");
 
 const USERS_PATH = path.join(__dirname, "../data/users.json");
 
-router.get("/", (req, res) => {
-  res.status(404).send({ message: "Requested resource not found" });
-});
-
 router.get("/users", (req, res) => {
   fsPromises.readFile(USERS_PATH, { encoding: "utf-8" }).then((users) => {
     res.send(users);
   });
 });
 
-router.get("/users/:_id", (req, res) => {
+router.get("/users/:id", (req, res) => {
   fsPromises
     .readFile(USERS_PATH, { encoding: "utf-8" })
     .then((users) => {
       const parsedUserdata = JSON.parse(users);
-      const user = parsedUserdata.find((usr) => usr.id === req.params.id);
-      if (!users) {
+      const user = parsedUserdata.find((usr) => usr._id === req.params.id);
+      if (!user) {
         res.status(404).send({ message: "User ID not found" });
       } else {
         res.send({ data: user });
