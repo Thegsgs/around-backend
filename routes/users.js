@@ -5,9 +5,12 @@ const path = require("path");
 const USERS_PATH = path.join(__dirname, "../data/users.json");
 
 router.get("/users", (req, res) => {
-  fsPromises.readFile(USERS_PATH, { encoding: "utf-8" }).then((users) => {
-    res.send(users);
-  });
+  fsPromises
+    .readFile(USERS_PATH, { encoding: "utf-8" })
+    .then((users) => {
+      res.send(JSON.parse(users));
+    })
+    .catch(() => res.status(500).send({ message: "An error has occurred" }));
 });
 
 router.get("/users/:id", (req, res) => {
