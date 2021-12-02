@@ -48,7 +48,7 @@ const updateUser = (req, res) => {
       name: newName,
       about: newAbout,
     },
-    { new: true, runValidators: true, upsert: false }
+    { new: true, runValidators: true, upsert: true }
   )
     .orFail(orFailSettings)
     .then((user) => handleResponse(res, user))
@@ -60,7 +60,7 @@ const updateUserAvatar = (req, res) => {
   User.findByIdAndUpdate(
     req.user._id,
     { avatar: newAvatar },
-    { new: true, runValidators: true, upsert: false }
+    { new: true, runValidators: true, upsert: true }
   )
     .orFail(orFailSettings)
     .then((user) => handleResponse(res, user))
