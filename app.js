@@ -12,12 +12,7 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 
-const corsOpt = {
-  origin: "https://simonshrb.students.nomoreparties.site",
-  allowedHeaders: ["Content-type", "Authorization"],
-};
-
-app.use(cors(corsOpt));
+app.use(cors());
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
