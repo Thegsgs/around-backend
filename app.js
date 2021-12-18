@@ -11,7 +11,13 @@ const { requestLogger, errorLogger } = require("./middleware/logger");
 const { PORT = 3000 } = process.env;
 
 const app = express();
-app.use(cors());
+
+const corsOptions = {
+  origin: "https://simonshrb.students.nomoreparties.site",
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 app.options("*", cors());
 app.use(helmet());
 app.use(bodyParser.json());
