@@ -13,13 +13,12 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 app.use(helmet());
-app.use(cors());
-app.options(
-  "*",
+app.use(
   cors({
     origin: "https://simonshrb.students.nomoreparties.site",
   })
 );
+app.options("*", cors());
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
