@@ -11,29 +11,8 @@ const { requestLogger, errorLogger } = require("./middleware/logger");
 const { PORT = 3000 } = process.env;
 
 const app = express();
-app.use((req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://simonshrb.students.nomoreparties.site"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,content-type"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", true);
-
-  next();
-});
 app.use(helmet());
-app.use(
-  cors({
-    origin: "https://simonshrb.students.nomoreparties.site",
-  })
-);
+app.use(cors());
 app.options("*", cors());
 
 app.use(bodyParser.json());
