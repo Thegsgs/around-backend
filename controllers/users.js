@@ -1,6 +1,8 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+
+const { NODE_ENV, JWT_SECRET } = process.env;
 const NotFoundError = require("../errors/not-found-err");
 const ForbiddenError = require("../errors/forbidden-err");
 
@@ -79,9 +81,13 @@ const loginUser = (req, res, next) => {
   User.findByCredentials({ email, password })
     .then((user) => {
       res.send({
-        token: jwt.sign({ _id: user._id }, "super-strong-secret", {
-          expiresIn: "7d",
-        }),
+        token: jwt.sign(
+          { _id: user._id },
+          NODE_ENV === "production" ? JWT_SECRET : "dev-secret",
+          {
+            expiresIn: "7d",
+          }
+        ),
       });
     })
     .catch((err) => next(err));
