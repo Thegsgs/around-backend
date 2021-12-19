@@ -1,3 +1,4 @@
+const cors = require("cors");
 const router = require("express").Router();
 const { celebrate, Joi } = require("celebrate");
 const validator = require("validator");
@@ -19,7 +20,7 @@ const validateURL = (value, helpers) => {
 
 router.use(auth);
 
-router.get("/cards", getCards);
+router.get("/cards", cors(), getCards);
 
 router.post(
   "/cards",
