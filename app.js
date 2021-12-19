@@ -1,9 +1,9 @@
+const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const { errors } = require("celebrate");
-const cors = require("cors");
 const usersRouter = require("./routes/users");
 const cardsRouter = require("./routes/cards");
 const { requestLogger, errorLogger } = require("./middleware/logger");
