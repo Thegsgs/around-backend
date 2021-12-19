@@ -2,7 +2,13 @@ const Card = require("../models/card");
 const NotFoundError = require("../errors/not-found-err");
 const ForbiddenError = require("../errors/forbidden-err");
 
-const handleResponse = (res, dataObj) => res.send({ data: dataObj });
+const handleResponse = (res, dataObj) =>
+  res
+    .setHeader(
+      "Access-Control-Allow-Origin",
+      "https://simonshrb.students.nomoreparties.site"
+    )
+    .send({ data: dataObj });
 
 const orFailSettings = () => {
   throw new NotFoundError("No card with this id.");
