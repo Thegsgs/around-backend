@@ -14,7 +14,12 @@ const app = express();
 
 app.use(helmet());
 app.use(cors());
-app.options("*", cors());
+app.options(
+  "*",
+  cors({
+    origin: "https://simonshrb.students.nomoreparties.site",
+  })
+);
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
