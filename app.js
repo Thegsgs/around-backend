@@ -16,7 +16,10 @@ app.use(helmet());
 app.use(cors());
 app.options("*", cors());
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:8888");
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://simonshrb.students.nomoreparties.site"
+  );
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
