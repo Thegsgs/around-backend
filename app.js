@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors")({
-  origin: "https://simonshrb.students.nomoreparties.site/login",
+  origin: "https://simonshrb.students.nomoreparties.site",
 });
 const mongoose = require("mongoose");
 const helmet = require("helmet");
