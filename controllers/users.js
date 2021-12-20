@@ -31,7 +31,7 @@ const getUserById = (req, res, next) => {
 const createUser = (req, res, next) => {
   const { name, about, avatar, email, password } = req.body;
 
-  User.findOne(email)
+  User.findOne({ email })
     .then((user) => {
       if (!user) {
         bcrypt
@@ -41,9 +41,8 @@ const createUser = (req, res, next) => {
           )
           .then(() => handleResponse(res, user))
           .catch((err) => next(err));
-      } else {
-        throw new ConflictError("User already exists!");
       }
+      throw new ConflictError("User already exists!");
     })
     .catch((err) => next(err));
 };
