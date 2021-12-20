@@ -7,9 +7,7 @@ const NotFoundError = require("../errors/not-found-err");
 const ForbiddenError = require("../errors/forbidden-err");
 const ConflictError = require("../errors/conflict-err");
 
-const handleResponse = (res, dataObj) => {
-  res.send({ data: dataObj });
-};
+const handleResponse = (res, dataObj) => res.send({ data: dataObj });
 
 const orFailSettings = () => {
   throw new NotFoundError("No user with that id.");
@@ -34,12 +32,20 @@ const createUser = (req, res, next) => {
   User.findOne({ email })
     .then((user) => {
       if (!user) {
-        bcrypt
+        return bcrypt
           .hash(password, 10)
           .then((hash) =>
             User.create({ name, about, avatar, email, password: hash })
           )
-          .then(() => handleResponse(res, user))
+          .then((createdUser) =>
+            handleResponse(res, {
+              _id: createdUser._id,
+              name: createdUser.name,
+              about: createdUser.about,
+              avatar: createdUser.avatar,
+              email: createdUser.email,
+            })
+          )
           .catch((err) => next(err));
       }
       throw new ConflictError("User already exists!");
