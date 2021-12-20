@@ -5,6 +5,7 @@ const User = require("../models/user");
 const { NODE_ENV, JWT_SECRET } = process.env;
 const NotFoundError = require("../errors/not-found-err");
 const ForbiddenError = require("../errors/forbidden-err");
+const ConflictError = require("../errors/conflict-err");
 
 const handleResponse = (res, dataObj) => {
   res.send({ data: dataObj });
@@ -29,10 +30,21 @@ const getUserById = (req, res, next) => {
 
 const createUser = (req, res, next) => {
   const { name, about, avatar, email, password } = req.body;
-  bcrypt
-    .hash(password, 10)
-    .then((hash) => User.create({ name, about, avatar, email, password: hash }))
-    .then((user) => handleResponse(res, user))
+
+  User.findOne(email)
+    .then((user) => {
+      if (!user) {
+        bcrypt
+          .hash(password, 10)
+          .then((hash) =>
+            User.create({ name, about, avatar, email, password: hash })
+          )
+          .then(() => handleResponse(res, user))
+          .catch((err) => next(err));
+      } else {
+        throw new ConflictError("User already exists!");
+      }
+    })
     .catch((err) => next(err));
 };
 
